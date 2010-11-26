@@ -1,0 +1,25 @@
+<%= form_for(@timecard) do |f| %>
+  <% if @timecard.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@timecard.errors.count, "error") %> prohibited this timecard from being saved:</h2>
+
+      <ul>
+      <% @timecard.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :workdate %><br />
+    <%= f.date_select :workdate %>
+  </div>
+  <div class="field">
+    <%= f.label :cardtext %><br />
+    <%= f.text_area :cardtext %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

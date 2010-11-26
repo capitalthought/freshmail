@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Workdate:</b>
+  <%= @timecard.workdate %>
+</p>
+
+<p>
+  <b>Cardtext:</b>
+  <%= @timecard.cardtext %>
+</p>
+
+
+<%= link_to 'Edit', edit_timecard_path(@timecard) %> |
+<%= link_to 'Back', timecards_path %>

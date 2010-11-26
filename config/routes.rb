@@ -1,4 +1,6 @@
 Freshmail::Application.routes.draw do
+  resources :timecards
+
   get "home/index"
 
   devise_for :users
