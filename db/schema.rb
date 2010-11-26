@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101126223720) do
+ActiveRecord::Schema.define(:version => 20101126225327) do
 
   create_table "timecards", :force => true do |t|
     t.date     "workdate"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20101126223720) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "freshbookstoken"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
