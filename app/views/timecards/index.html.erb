@@ -12,7 +12,7 @@
 <% @timecards.each do |timecard| %>
   <tr>
     <td><%= timecard.workdate %></td>
-    <td><%= timecard.cardtext %></td>
+    <td><%= simple_format(timecard.cardtext) %></td>
     <td><%= link_to 'Show', timecard %></td>
     <td><%= link_to 'Edit', edit_timecard_path(timecard) %></td>
     <td><%= link_to 'Destroy', timecard, :confirm => 'Are you sure?', :method => :delete %></td>
