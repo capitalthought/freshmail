@@ -39,24 +39,20 @@ class User < ActiveRecord::Base
     
   end
   
-  def generate_timecard_text
-    f = FreshBooks::Client.new(self.freshbooksdomain + ".freshbooks.com", self.freshbookstoken)
-    projects = f.project.list["projects"]["project"]
-    
+  def generate_timecard_text    
     out = Array.new
     
-    projects.each do |p|
-        x = { "name" => p["name"], "id" => p["project_id"]}
-        tasks = f.task.list :project_id => p["project_id"]
-        x["tasks"] = Array.new
-        tasks["tasks"]["task"].each do |t|
-          taskname = t["name"]
-          taskname.gsub!(/ /, '_')
-          x["tasks"] << {taskname => 0}
-        end
-        out << x      
+    self.projects.each do |p|
+      newproject = {"project" => p.name}
+      newproject["tasks"] = Hash.new
+      p.tasks.each do |t|
+        newproject["tasks"][t.name] = 0
+      end
+      out << newproject
     end
-    out_string = out.ya2yaml.gsub(/- \n    /,'-')
+    
+    out_string = out.ya2yaml
     self.defaulttimecard = out_string
+    self.save
   end
 end
