@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   
   has_many :timecards
   has_many :projects
+  has_many :tasks, :through => :projects
   
   def store_projects
     f = FreshBooks::Client.new(self.freshbooksdomain + ".freshbooks.com", self.freshbookstoken)
