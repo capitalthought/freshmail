@@ -10,6 +10,33 @@ class User < ActiveRecord::Base
                   :defaulttimecard
   
   has_many :timecards
+  has_many :projects
+  
+  def store_projects
+    f = FreshBooks::Client.new(self.freshbooksdomain + ".freshbooks.com", self.freshbookstoken)
+    
+    projects = f.project.list["projects"]["project"]
+    
+    projects.each do |p|
+      newproject = Project.new
+      newproject.name = p["name"]
+      newproject.freshbooks_id = p["project_id"]
+      
+      tasks = f.task.list :project_id => newproject.freshbooks_id
+      tasks = tasks["tasks"]["task"]
+      
+      tasks.each do |t|
+        newtask = Task.new
+        newtask.name = t["name"]
+        newtask.freshbooks_id = t["task_id"]
+        
+        newproject.tasks << newtask
+      end
+      
+      self.projects << newproject
+    end
+    
+  end
   
   def generate_timecard_text
     f = FreshBooks::Client.new(self.freshbooksdomain + ".freshbooks.com", self.freshbookstoken)
