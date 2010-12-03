@@ -1,5 +1,7 @@
 class Timecard < ActiveRecord::Base
-  belongs_to :user  
+  belongs_to :user
+  
+  after_create :publish  
   
   def publish
     f = FreshBooks::Client.new(self.user.freshbooksdomain + ".freshbooks.com", self.user.freshbookstoken)
