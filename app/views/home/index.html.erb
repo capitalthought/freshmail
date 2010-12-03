@@ -1,5 +1,8 @@
 <h1>Home</h1>
 <% if user_signed_in? %>
-  <%= link_to 'New Timecard', new_timecard_path %>
-  <%= link_to 'My Freshbooks Account', edit_fresh_books_account_path(current_user.fresh_books_account.id) %>
+  <ul>
+    <li><%= link_to 'New Timecard', new_timecard_path %></li>
+    <li><%= link_to 'My Freshbooks Account', edit_fresh_books_account_path(current_user.fresh_books_account.id) %></li>
+    <li><%= link_to 'Email me a timecard', new_timecard_path(:via => "email") %>
+  </ul>
 <% end %>

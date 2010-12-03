@@ -24,12 +24,20 @@ class TimecardsController < ApplicationController
   # GET /timecards/new
   # GET /timecards/new.xml
   def new
-    @timecard = Timecard.new
-    @timecard.cardtext = current_user.defaulttimecard
+    if params[:via] == "email"
+      if UserMailer.timecard_email(current_user).deliver
+        redirect_to(:root, :notice => 'Timecard successfully sent')
+      else
+        redirect_to(:root, :notice => "Timecard was not sent")
+      end
+    else
+      @timecard = Timecard.new
+      @timecard.cardtext = current_user.defaulttimecard
     
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @timecard }
+      respond_to do |format|
+        format.html # new.html.erb
+        format.xml  { render :xml => @timecard }
+      end
     end
   end
 
