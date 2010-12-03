@@ -1,2 +1,5 @@
 <h1>Home</h1>
-<p><%= link_to "New Timecard", new_timecard_path %><p>
+<% if user_signed_in? %>
+  <%= link_to 'New Timecard', new_timecard_path %>
+  <%= link_to 'My Freshbooks Account', edit_fresh_books_account_path(current_user.fresh_books_account.id) %>
+<% end %>

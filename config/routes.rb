@@ -1,4 +1,6 @@
 Freshmail::Application.routes.draw do
+  resources :fresh_books_accounts
+
   resources :timecards
 
   get "home/index"

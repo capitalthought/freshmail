@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Subdomain:</b>
+  <%= @fresh_books_account.subdomain %>
+</p>
+
+<p>
+  <b>Token:</b>
+  <%= @fresh_books_account.token %>
+</p>
+
+
+<%= link_to 'Edit', edit_fresh_books_account_path(@fresh_books_account) %> |
+<%= link_to 'Back', fresh_books_accounts_path %>

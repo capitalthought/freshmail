@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  subdomain: MyString
+  token: MyString
+
+two:
+  subdomain: MyString
+  token: MyString

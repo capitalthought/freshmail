@@ -4,7 +4,7 @@ class Timecard < ActiveRecord::Base
   after_create :publish  
   
   def publish
-    f = FreshBooks::Client.new(self.user.freshbooksdomain + ".freshbooks.com", self.user.freshbookstoken)
+    f = FreshBooks::Client.new(self.user.fresh_books_account.subdomain + ".freshbooks.com", self.user.fresh_books_account.token)
     input = YAML::load(self.cardtext)
     
     input.each do |project|

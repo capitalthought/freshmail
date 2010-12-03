@@ -10,7 +10,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101128213031) do
+ActiveRecord::Schema.define(:version => 20101203212319) do
+
+  create_table "fresh_books_accounts", :force => true do |t|
+    t.string   "subdomain"
+    t.string   "token"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -50,8 +58,6 @@ ActiveRecord::Schema.define(:version => 20101128213031) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "freshbookstoken"
-    t.string   "freshbooksdomain"
     t.text     "defaulttimecard"
   end
 

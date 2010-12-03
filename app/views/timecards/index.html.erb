@@ -22,4 +22,6 @@
 
 <br />
 
-<%= link_to 'New Timecard', new_timecard_path %>
+<% if user_signed_in? %>
+  <%= link_to 'New Timecard', new_timecard_path %>
+<% end %>
