@@ -16,10 +16,10 @@ class User < ActiveRecord::Base
   def store_projects
     f = FreshBooks::Client.new(self.freshbooksdomain + ".freshbooks.com", self.freshbookstoken)
     
+    #TODO Breaks if user only has one Freshbooks project
     projects = f.project.list["projects"]["project"]
-    
+   
     projects.each do |p|
-      newproject = Project.new
       newproject.name = p["name"]
       newproject.freshbooks_id = p["project_id"]
       
