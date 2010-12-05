@@ -1,4 +1,7 @@
 class TimecardsController < ApplicationController
+
+  skip_before_filter :verify_authenticity_token, :only => [:create]
+
   # GET /timecards
   # GET /timecards.xml
   def index
@@ -49,17 +52,38 @@ class TimecardsController < ApplicationController
   # POST /timecards
   # POST /timecards.xml
   def create
-    @timecard = Timecard.new(params[:timecard])
-
-    @timecard.user_id = current_user.id
-
-    respond_to do |format|
+    
+    if params[:via] == "email"
+      input = params[:plain]
+      input.gsub!(/> /, '')
+      input = input.split(/---.*\n-.*\n/)[1]
+      input = "---\n-\n" + input
+      input.gsub!(/\n\*\*/, "\n    ")
+      input.gsub!(/\n\*/, "\n  ")
+               
+      user = User.find_by_email(params[:from])
+      @timecard = Timecard.new(:user_id => user.id, :cardtext => input, :workdate => DateTime.now)
+      
       if @timecard.save
-        format.html { redirect_to(@timecard, :notice => 'Timecard was successfully created.') }
-        format.xml  { render :xml => @timecard, :status => :created, :location => @timecard }
+        logger.info "Emailed timecard was successfully saved."
+        redirect_to (:root)
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @timecard.errors, :status => :unprocessable_entity }
+        logger.info "Emailed timecard was not saved"
+        redirect_to (:root)
+      end
+    else
+      @timecard = Timecard.new(params[:timecard])
+
+      @timecard.user_id = current_user.id
+
+      respond_to do |format|
+        if @timecard.save
+          format.html { redirect_to(@timecard, :notice => 'Timecard was successfully created.') }
+          format.xml  { render :xml => @timecard, :status => :created, :location => @timecard }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @timecard.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end

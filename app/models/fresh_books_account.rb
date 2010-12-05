@@ -13,7 +13,9 @@ class FreshBooksAccount < ActiveRecord::Base
     
       #TODO Breaks if user only has one Freshbooks project
       projects = f.project.list["projects"]["project"]
-   
+      
+      user_projects = Array.new
+      
       projects.each do |p|
         newproject = Project.new
         newproject.name = p["name"]
@@ -30,8 +32,10 @@ class FreshBooksAccount < ActiveRecord::Base
           newproject.tasks << newtask
         end
       
-        self.user.projects << newproject
+        user_projects << newproject
       end
+      
+      self.user.projects = user_projects
     end
   end
   
@@ -48,6 +52,9 @@ class FreshBooksAccount < ActiveRecord::Base
     end
     
     out_string = out.ya2yaml
+    out_string.gsub!(/\n    /, "\n**")
+    out_string.gsub!(/\n  /, "\n*")
+    out_string = out_string += "...\n"
     self.user.defaulttimecard = out_string
     self.user.save
   end
