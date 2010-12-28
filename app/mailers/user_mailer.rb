@@ -1,6 +1,7 @@
 class UserMailer < ActionMailer::Base
-  default :from => "from@example.com",
-          :reply_to => "c186abe0cc95dc02d46a@cloudmailin.net"
+  
+  default :from => "timecards@freshmailer.net",
+          :reply_to => ENV["CLOUDMAILIN_FORWARD_ADDRESS"] || "test@test.com"
   
   def welcome_email(user)
     @user = user
@@ -14,6 +15,6 @@ class UserMailer < ActionMailer::Base
     @user = user
     
     mail(:to => user.email,
-         :subject => "Your Timesheet")
+         :subject => "Your Timecard for #{Time.now.strftime("%A %B %d")}")
   end
 end

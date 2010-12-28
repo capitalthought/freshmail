@@ -62,8 +62,11 @@ class TimecardsController < ApplicationController
       input.gsub!(/\n\*/, "\n  ")
                
       user = User.find_by_email(params[:from])
-      @timecard = Timecard.new(:user_id => user.id, :cardtext => input, :workdate => DateTime.now)
+      workdate = Date.strptime(params[:subject].split(/Your Timecard for /).last,"%A %B %d")
       
+      
+      @timecard = Timecard.new(:user_id => user.id, :cardtext => input, :workdate => workdate)
+            
       if @timecard.save
         logger.info "Emailed timecard was successfully saved."
         redirect_to (:root)
